@@ -11,6 +11,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find_by id: params[:id]
+    @microposts = @user.microposts.paginate(page: params[:page])
     #redirect_to root_url and return unless FILL_IN
     unless @user
       flash[:danger] = t("flash.danger.invalid_user")
@@ -68,22 +69,28 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
 
-  # Confirms an admin user.
-  def admin_user
-      redirect_to(root_url) unless current_user.admin?
-  end
-
-  # Confirms the correct user.
-    def correct_user
-      @user = User.find(params[:id])
-      redirect_to(root_url) unless current_user?(@user)
-    end
-
+  # # Confirms an admin user.
+  # def admin_user
+  #     redirect_to(root_url) unless current_user.admin?
+  # end
 
   private
 
     def user_params
       params.require(:user).permit(:name, :email, :password,
-        :password_confirmation,:activation_digest)
+        :password_confirmation)
     end
+
+    # Confirms the correct user.
+    def correct_user
+      @user = User.find(params[:id])
+      redirect_to(root_url) unless current_user?(@user)
+    end
+
+    # Confirms an admin user.
+    def admin_user
+      redirect_to(root_url) unless current_user.admin?
+    end
+
+
 end

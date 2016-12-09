@@ -25,7 +25,6 @@ Rails.application.configure do
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
 
-
  config.action_mailer.raise_delivery_errors = true
  config.action_mailer.delivery_method = :smtp
  host = '<lit-scrubland-94454>.herokuapp.com'

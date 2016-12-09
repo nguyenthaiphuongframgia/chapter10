@@ -5,16 +5,17 @@ class UsersController < ApplicationController
   before_action :admin_user,     only: :destroy
 
   def index
-    @users = User.where(activated: FILL_IN).paginate(page: params[:page])
+    # @users = User.where(activated: FILL_IN).paginate(page: params[:page])
+     @users = User.paginate(page: params[:page])
   end
 
   def show
     @user = User.find_by id: params[:id]
-    redirect_to root_url and return unless FILL_IN
-    # unless @user
-    #   flash[:danger] = t("flash.danger.invalid_user")
-    #   redirect_to root_url
-    # end
+    #redirect_to root_url and return unless FILL_IN
+    unless @user
+      flash[:danger] = t("flash.danger.invalid_user")
+      redirect_to root_url
+    end
   end
 
   def new
